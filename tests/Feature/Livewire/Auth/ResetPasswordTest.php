@@ -1,13 +1,13 @@
 <?php
 
-use App\Models\User;
-use Livewire\Livewire;
+declare(strict_types=1);
+
 use App\Livewire\Auth\ResetPassword;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
+use Livewire\Livewire;
 
 beforeEach(function () {
     Notification::fake();
@@ -15,9 +15,9 @@ beforeEach(function () {
 
 test('reset password screen can be rendered', function () {
     $user = User::factory()->create();
-    
+
     $token = Password::createToken($user);
-    
+
     $this->get(route('password.reset', ['token' => $token, 'email' => $user->email]))
         ->assertStatus(200)
         ->assertSeeLivewire(ResetPassword::class);
@@ -26,14 +26,14 @@ test('reset password screen can be rendered', function () {
 test('can reset password with valid token', function () {
     $user = User::factory()->create();
     $token = Password::createToken($user);
-    
+
     Livewire::test(ResetPassword::class, ['token' => $token])
         ->set('email', $user->email)
         ->set('password', 'new-password')
         ->set('password_confirmation', 'new-password')
         ->call('resetPassword')
         ->assertRedirect(route('login'));
-    
+
     $this->assertTrue(Auth::attempt([
         'email' => $user->email,
         'password' => 'new-password',
@@ -43,7 +43,7 @@ test('can reset password with valid token', function () {
 test('validates required fields', function () {
     $user = User::factory()->create();
     $token = Password::createToken($user);
-    
+
     Livewire::test(ResetPassword::class, ['token' => $token])
         ->set('email', '')
         ->set('password', '')
@@ -54,7 +54,7 @@ test('validates required fields', function () {
 test('validates password confirmation', function () {
     $user = User::factory()->create();
     $token = Password::createToken($user);
-    
+
     Livewire::test(ResetPassword::class, ['token' => $token])
         ->set('email', $user->email)
         ->set('password', 'password')
@@ -66,7 +66,7 @@ test('validates password confirmation', function () {
 test('shows error for invalid token', function () {
     $user = User::factory()->create();
     $invalidToken = 'invalid-token';
-    
+
     Livewire::test(ResetPassword::class, ['token' => $invalidToken])
         ->set('email', $user->email)
         ->set('password', 'new-password')
@@ -78,7 +78,7 @@ test('shows error for invalid token', function () {
 test('validates password strength', function () {
     $user = User::factory()->create();
     $token = Password::createToken($user);
-    
+
     Livewire::test(ResetPassword::class, ['token' => $token])
         ->set('email', $user->email)
         ->set('password', '123')

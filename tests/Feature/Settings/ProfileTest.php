@@ -1,17 +1,18 @@
 <?php
 
-use App\Models\User;
-use Livewire\Livewire;
+declare(strict_types=1);
+
 use App\Livewire\Settings\Profile;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
+use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
+use Livewire\Livewire;
 
 beforeEach(function () {
     Notification::fake();
 });
 
-test('resend verification, sends notification for unverified users', function(){
+test('resend verification, sends notification for unverified users', function () {
     $user = User::factory()->unverified()->create()->refresh();
 
     $this->actingAs($user);

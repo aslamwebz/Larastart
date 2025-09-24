@@ -1,10 +1,12 @@
 <?php
 
-use App\Models\User;
-use Livewire\Livewire;
+declare(strict_types=1);
+
 use App\Livewire\Auth\Login;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Livewire;
 
 beforeEach(function () {
     // Reset rate limiter before each test
@@ -57,10 +59,10 @@ test('login is rate limited after too many attempts', function () {
     //         ->set('password', 'wrong-password')
     //         ->call('login');
     // }
-    
+
     // // After 5 attempts, we should get rate limited
     // $response->assertHasErrors('email');
-    
+
     // // Get the error message from the session
     // $errorMessage = session('errors')->first('email');
     // $this->assertStringContainsString(
@@ -76,12 +78,12 @@ test('login is rate limited after too many attempts', function () {
 
 test('users can logout', function () {
     $user = User::factory()->create();
-    
+
     $this->actingAs($user);
     $this->assertAuthenticatedAs($user);
-    
+
     $this->post(route('logout'))
         ->assertRedirect('/');
-    
+
     $this->assertGuest();
 });

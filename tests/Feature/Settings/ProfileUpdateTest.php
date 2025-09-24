@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Livewire\Livewire;
@@ -74,5 +76,3 @@ test('correct password must be provided to delete account', function () {
 
     expect($user->fresh())->not->toBeNull();
 });
-
-

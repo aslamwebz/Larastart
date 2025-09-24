@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Livewire\Auth;
 
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 #[Layout('components.layouts.auth')]
-class VerifyEmail extends Component
+final class VerifyEmail extends Component
 {
     public $sent = false;
+
     /**
      * Send an email verification notification to the user.
      */
@@ -24,7 +26,7 @@ class VerifyEmail extends Component
         }
 
         Auth::user()->sendEmailVerificationNotification();
-        
+
         $this->sent = true;
         session()->flash('status', 'verification-link-sent');
     }
