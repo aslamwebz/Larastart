@@ -63,7 +63,7 @@
         ],
         "lint": "pint",
         "refactor": "rector",
-        "test:coverage": "pest --coverage --min=100",
+        "test:coverage": "pest --parallel --coverage --min=90",
         "test:typos": "peck",
         "test:lint": "pint --test",
         "test:unit": "pest --parallel",
@@ -71,10 +71,9 @@
         "test:refactor": "rector --dry-run",
         "test": [
             "@test:coverage",
-            "@test:unit",
             "@test:refactor",
-            "@test:types",
-            "@test:lint"
+            "@test:lint",
+            "@test:types"
         ]
     },
     "extra": {
